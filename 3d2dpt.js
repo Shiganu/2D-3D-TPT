@@ -24,10 +24,37 @@ cvs.style.height = String(height) + "px";
 
 function update()
 {
+	background();
 	z = Number(zSlider.value);
 
+	drawVert(100, 0, 0);
+	drawVert(-100, 0, 0);
+}
+
+function background()
+{
 	c.fillStyle = "#000000";
 	c.fillRect(0, 0, width, height);
+}
+
+function drawVert(x, y, mode)
+{
+	var xx = 0;
+	var yy = 0;
+
+	if(mode == 0)
+	{
+		xx = getPerspective1(x, y)[0];
+		yy = getPerspective1(x, y)[1];
+	}
+	else if(mode == 1)
+	{
+		xx = getPerspective2(x, y)[0];
+		yy = getPerspective2(x, y)[1];
+	}
+
+	c.fillStyle = "#ffffff";
+	c.fillRect(cx+xx-2, cy+yy-2, 4, 4);
 }
 
 function getPerspective1(x, y)
