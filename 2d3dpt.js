@@ -16,6 +16,7 @@ var cy = height/2;
 
 var speed = 5;
 var z = 1;
+var grid = [];
 
 cvs.width = String(width);
 cvs.height = String(height);
@@ -28,8 +29,7 @@ function update()
 	background();
 	z = Number(zSlider.value);
 
-	drawCube(0, 0, 100);
-	drawCube(200, 0, 100);
+	drawGrid();
 }
 
 window.onkeydown = function(keyData)
@@ -42,16 +42,69 @@ window.onkeydown = function(keyData)
 	if(key == "ArrowRight") cx += speed;
 };
 
-function drawCube(x, y, size)
+function initGrid()
 {
-	drawVert(x+size, y+size, 0);
-	drawVert(x-size, y+size, 0);
-	drawVert(x+size, y-size, 0);
-	drawVert(x-size, y-size, 0);
-	drawVert(x+size, y+size, 1);
-	drawVert(x-size, y+size, 1);
-	drawVert(x+size, y-size, 1);
-	drawVert(x-size, y-size, 1);
+	for(var i = 0; i < 5; i++)
+	{
+		grid[i] = [];
+		for(var j = 0; j < 5; j++)
+		{
+			grid[i][j] = 1;
+		}
+	}
+}
+
+function drawGrid()
+{
+	for(var i = 0; i < 5; i++)
+	{
+		for(var j = 0; j < 5; j++)
+		{
+			var x = (j-2)*200;
+			var y = (i-2)*200;
+			if(grid[i][j] == 0) drawCubeFaces(x, y, 100, "#000000");				//empty
+			else if(grid[i][j] == 1) drawCubeFaces(x, y, 100, "#707070");		//stone
+			//console.log(x, y);
+		}
+	}
+	for(var i = 0; i < 5; i++)
+	{
+		for(var j = 0; j < 5; j++)
+		{
+			var x = (j-2)*200;
+			var y = (i-2)*200;
+			drawCubeLines(x, y, 100);
+			//console.log(x, y);
+		}
+	}
+}
+
+window.onmousedown = function()
+{
+
+};
+
+function drawCubeFaces(x, y, size, color)
+{
+	drawArea(
+		vert(x+size, y+size, 1),
+		vert(x-size, y+size, 1),
+		vert(x-size, y-size, 1),
+		vert(x+size, y-size, 1),
+		color
+	);
+}
+
+function drawCubeLines(x, y, size)
+{
+	//drawVert(x+size, y+size, 0);
+	//drawVert(x-size, y+size, 0);
+	//drawVert(x+size, y-size, 0);
+	//drawVert(x-size, y-size, 0);
+	//drawVert(x+size, y+size, 1);
+	//drawVert(x-size, y+size, 1);
+	//drawVert(x+size, y-size, 1);
+	//drawVert(x-size, y-size, 1);
 
 	drawLine(
 		vert(x+size, y+size, 0),
@@ -114,6 +167,27 @@ function drawCube(x, y, size)
 	);
 }
 
+function drawArea(vert1, vert2, vert3, vert4, color)
+{
+	var x1 = vert1[0];
+	var y1 = vert1[1];
+	var x2 = vert2[0];
+	var y2 = vert2[1];
+	var x3 = vert3[0];
+	var y3 = vert3[1];
+	var x4 = vert4[0];
+	var y4 = vert4[1];
+
+	c.fillStyle = color;
+	//c.strokeStyle = color;
+	c.beginPath();
+	c.moveTo(cx+x1, cy+y1);
+	c.lineTo(cx+x2, cy+y2);
+	c.lineTo(cx+x3, cy+y3);
+	c.lineTo(cx+x4, cy+y4);
+	c.fill();
+}
+
 function background()
 {
 	c.fillStyle = "#000000";
@@ -127,7 +201,7 @@ function drawLine(vert1, vert2)
 	var x2 = vert2[0];
 	var y2 = vert2[1];
 
-	c.strokeStyle = "#ffffff";
+	c.strokeStyle = "#ff0000";
 	c.beginPath();
 	c.moveTo(cx+x1, cy+y1);
 	c.lineTo(cx+x2, cy+y2);
@@ -195,4 +269,5 @@ function getPerspective2(x, y)
 	return [fx, fy];
 }
 
+initGrid();
 setInterval(update, 50/3);
