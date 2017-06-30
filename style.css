@@ -35,6 +35,16 @@ body
 	width: 46px;
 	margin-left: 2px;
 	margin-right: 2px;
+	cursor: pointer;
+}
+
+#metal
+{
+	background-color: #4c4c4c;
+	width: 46px;
+	margin-left: 2px;
+	margin-right: 2px;
+	cursor: pointer;
 }
 
 #empty
@@ -43,4 +53,5 @@ body
 	width: 46px;
 	margin-left: 2px;
 	margin-right: 2px;
+	cursor: pointer;
 }
