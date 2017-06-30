@@ -8,6 +8,33 @@ var cvs = $("cvs");
 var c = cvs.getContext("2d");
 var zSlider = $("zs");
 
+var empty = $("empty");
+var stone = $("stone");
+var metal = $("metal");
+
+var material = 1;
+
+/*
+	0 - empty
+	1 - stone
+	2 - metal
+*/
+
+empty.onclick = function()
+{
+	material = 0;
+};
+
+stone.onclick = function()
+{
+	material = 1;
+}
+
+metal.onclick = function()
+{
+	material = 2;
+}
+
 var width = 800;
 var height = 500;
 
@@ -17,6 +44,9 @@ var cy = height/2;
 var speed = 5;
 var z = 1;
 var grid = [];
+
+var gridW = 5;
+var gridH = 5;
 
 cvs.width = String(width);
 cvs.height = String(height);
@@ -44,44 +74,67 @@ window.onkeydown = function(keyData)
 
 function initGrid()
 {
-	for(var i = 0; i < 5; i++)
+	for(var i = 0; i < gridH; i++)
 	{
 		grid[i] = [];
-		for(var j = 0; j < 5; j++)
+		for(var j = 0; j < gridW; j++)
 		{
-			grid[i][j] = 1;
+			grid[i][j] = 0;
 		}
 	}
 }
 
 function drawGrid()
 {
-	for(var i = 0; i < 5; i++)
+	for(var i = 0; i < gridH; i++)
 	{
-		for(var j = 0; j < 5; j++)
+		for(var j = 0; j < gridW; j++)
 		{
-			var x = (j-2)*200;
-			var y = (i-2)*200;
-			if(grid[i][j] == 0) drawCubeFaces(x, y, 100, "#000000");				//empty
+			var x = (j-Math.floor(gridW/2))*200;
+			var y = (i-Math.floor(gridH/2))*200;
+			if(grid[i][j] == 0) drawCubeFaces(x, y, 100, "#000000");			//empty
 			else if(grid[i][j] == 1) drawCubeFaces(x, y, 100, "#707070");		//stone
+			else if(grid[i][j] == 2) drawCubeFaces(x, y, 100, "#4c4c4c");		//metal
 			//console.log(x, y);
 		}
 	}
-	for(var i = 0; i < 5; i++)
+	for(var i = 0; i < gridH; i++)
 	{
-		for(var j = 0; j < 5; j++)
+		for(var j = 0; j < gridW; j++)
 		{
-			var x = (j-2)*200;
-			var y = (i-2)*200;
+			var x = (j-Math.floor(gridW/2))*200;
+			var y = (i-Math.floor(gridH/2))*200;
 			drawCubeLines(x, y, 100);
 			//console.log(x, y);
 		}
 	}
 }
 
-window.onmousedown = function()
+window.onmousedown = function(mouseEvent)
 {
+	var mouseX = mouseEvent.clientX;
+	var mouseY = mouseEvent.clientY;
 
+	var x = (-Math.floor(gridW/2))*200;
+	var y = (-Math.floor(gridH/2))*200;
+	var size = 100;
+
+	var xtl = vert(x-size, y-size, 1)[0] + cx;
+	var xtr = vert(x+size, y-size, 1)[0] + cx;
+	var ytl = vert(x-size, y-size, 1)[1] + cy;
+
+	var side = xtr - xtl;
+
+	mouseX -= xtl;
+	mouseY -= ytl;
+
+	var j = Math.floor(mouseX / side);
+	var i = Math.floor(mouseY / side);
+
+	if(i >= 0 && i < gridH && j >= 0 && j < gridW)
+	{
+		grid[i][j] = material;
+	}
 };
 
 function drawCubeFaces(x, y, size, color)
