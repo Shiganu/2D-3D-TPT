@@ -55,3 +55,21 @@ body
 	margin-right: 2px;
 	cursor: pointer;
 }
+
+#water
+{
+	background-color: #0074e0;
+	width: 46px;
+	margin-left: 2px;
+	margin-right: 2px;
+	cursor: pointer;
+}
+
+#ceramic
+{
+	background-color: #e1c26d;
+	width: 46px;
+	margin-left: 2px;
+	margin-right: 2px;
+	cursor: pointer;
+}
