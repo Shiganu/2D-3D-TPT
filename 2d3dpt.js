@@ -1,4 +1,5 @@
 
+
 function $(id)
 {
 	return document.getElementById(id);
@@ -11,6 +12,8 @@ var zSlider = $("zs");
 var empty = $("empty");
 var stone = $("stone");
 var metal = $("metal");
+var water = $("water");
+var ceramic = $("ceramic");
 
 var material = 1;
 
@@ -18,6 +21,8 @@ var material = 1;
 	0 - empty
 	1 - stone
 	2 - metal
+	3 - water
+	4 - ceramic
 */
 
 empty.onclick = function()
@@ -33,6 +38,16 @@ stone.onclick = function()
 metal.onclick = function()
 {
 	material = 2;
+}
+
+water.onclick = function()
+{
+	material = 3;
+}
+
+ceramic.onclick = function()
+{
+	material = 4;
 }
 
 var width = 800;
@@ -92,9 +107,11 @@ function drawGrid()
 		{
 			var x = (j-Math.floor(gridW/2))*200;
 			var y = (i-Math.floor(gridH/2))*200;
-			if(grid[i][j] == 0) drawCubeFaces(x, y, 100, "#000000");			//empty
+			if(grid[i][j] == 0) drawCubeFaces(x, y, 100, "#000000");		//empty
 			else if(grid[i][j] == 1) drawCubeFaces(x, y, 100, "#707070");		//stone
 			else if(grid[i][j] == 2) drawCubeFaces(x, y, 100, "#4c4c4c");		//metal
+			else if(grid[i][j] == 3) drawCubeFaces(x, y, 100, "#0074e0");		//water
+			else if(grid[i][j] == 4) drawCubeFaces(x, y, 100, "#e1c26d");		//ceramic
 			//console.log(x, y);
 		}
 	}
